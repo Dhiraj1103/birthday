@@ -1,239 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Surprise</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Happiest Birthday Riddhi 💖</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow-x: hidden; }
-    body {
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: radial-gradient(circle at 10% 10%, #1b1f4a 0%, #07102a 45%, #02040a 100%);
-      color: #fff;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+    /* ---------- Reset & base ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:radial-gradient(circle at 10% 10%, #1b1f4a 0%, #07102a 45%, #02040a 100%); color:#fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
 
-    /* Overlay */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 50;
-      padding: 24px;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.85));
-      backdrop-filter: blur(6px);
-    }
-    .overlay h2 {
-      font-size: 28px;
-      color: #ffd3e0;
-      letter-spacing: 0.3px;
-      margin-bottom: 10px;
-      text-shadow: 0 6px 30px rgba(255,120,150,0.08);
-    }
-    .overlay p { color: #bfcfe8; margin-bottom: 22px; font-size: 15px; }
-    .tap-hint {
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: linear-gradient(90deg,#ff86a2,#ffb4c9);
-      color: #081026;
-      font-weight: 700;
-      box-shadow: 0 8px 30px rgba(255,110,135,0.16);
-      cursor: pointer;
-    }
-    .sub { margin-top: 10px; color: #96a7cf; font-size: 13px; }
+    /* ---------- Welcome overlay (tap) ---------- */
+    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:50;padding:24px;text-align:center;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.85));backdrop-filter: blur(6px)}
+    .overlay h2{font-size:28px;color:#ffd3e0;letter-spacing:0.3px;margin-bottom:10px;text-shadow:0 6px 30px rgba(255,120,150,0.08)}
+    .overlay p{color:#bfcfe8;margin-bottom:22px;font-size:15px}
+    .tap-hint{display:inline-block;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,#ff86a2,#ffb4c9);color:#081026;font-weight:700;box-shadow:0 8px 30px rgba(255,110,135,0.16);cursor:pointer}
+    .sub{margin-top:10px;color:#96a7cf;font-size:13px}
 
-    /* Main content */
-    .app {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: all .8s cubic-bezier(.2,.9,.23,1);
-      pointer-events: none;
-    }
-    .app.visible {
-      opacity: 1;
-      transform: none;
-      pointer-events: auto;
-    }
+    /* ---------- Main content (hidden until tap) ---------- */
+    .app{opacity:0;transform:translateY(18px);transition:all .8s cubic-bezier(.2,.9,.23,1);pointer-events:none}
+    .app.visible{opacity:1;transform:none;pointer-events:auto}
 
-    .container { max-width: 900px; margin: 0 auto; padding: 28px 18px; }
-    .hero {
-      min-height: 72vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      padding-top: 12vh;
-    }
+    .container{max-width:900px;margin:0 auto;padding:28px 18px}
+    .hero{min-height:72vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding-top:12vh}
 
     /* Typewriter heading */
-    .title {
-      font-weight: 800;
-      font-size: 34px;
-      letter-spacing: 0.4px;
-      color: #ffd6e3;
-      text-shadow: 0 10px 40px rgba(255,100,140,0.08);
-    }
-    .title .cursor {
-      display: inline-block;
-      width: 8px;
-      height: 28px;
-      background: linear-gradient(180deg,#fff,#ff8aa0);
-      margin-left: 6px;
-      vertical-align: middle;
-      animation: blink 1s steps(2) infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
+    .title{font-weight:800;font-size:34px;letter-spacing:0.4px;color:#ffd6e3;text-shadow:0 10px 40px rgba(255,100,140,0.08)}
+    .title .cursor{display:inline-block;width:8px;height:28px;background:linear-gradient(180deg,#fff,#ff8aa0);margin-left:6px;vertical-align:middle;animation:blink 1s steps(2) infinite}
+    @keyframes blink{50%{opacity:0}}
 
-    .subtitle {
-      margin-top: 12px;
-      color: #dbe9ff;
-      max-width: 760px;
-      font-size: 16px;
-      line-height: 1.6;
-    }
+    .subtitle{margin-top:12px;color:#dbe9ff;max-width:760px;font-size:16px;line-height:1.6}
 
-    /* Story cards */
-    .story {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 26px;
-      margin-top: 28px;
-    }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
-      transform: translateY(28px);
-      opacity: 0;
-      transition: all .9s cubic-bezier(.2,.9,.23,1);
-    }
-    .card.show { transform: none; opacity: 1; }
+    /* ---------- Sections for photos & captions ---------- */
+    .story{display:grid;grid-template-columns:1fr;gap:26px;margin-top:28px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:18px;box-shadow:0 10px 40px rgba(2,6,23,0.6);transform:translateY(28px);opacity:0;transition:all .9s cubic-bezier(.2,.9,.23,1);}
+    .card.show{transform:none;opacity:1}
+    .photo{width:100%;height:220px;border-radius:12px;overflow:hidden;background:#071025;display:flex;align-items:center;justify-content:center}
+    .photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+    .photo:hover img{transform:scale(1.05)}
+    .caption{margin-top:12px;color:#e8f3ff}
 
-    /* Responsive photo section */
-    .photo {
-      width: 100%;
-      aspect-ratio: 4/3;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #071025;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .8s ease;
-    }
-    .photo:hover img { transform: scale(1.05); }
+    /* ---------- final & footer ---------- */
+    .final{padding:26px;border-radius:16px;margin-top:18px;background:linear-gradient(90deg, rgba(255,110,140,0.06), rgba(255,190,210,0.02));box-shadow:0 14px 40px rgba(20,8,30,0.45)}
+    .final h3{color:#ffd6e3}
+    .signature{margin-top:12px;color:#ff9fb3;font-weight:700}
 
-    .caption {
-      margin-top: 12px;
-      color: #e8f3ff;
-      font-size: 15px;
-      line-height: 1.5;
-      text-align: center;
+    /* ---------- confetti canvas & hearts ---------- */
+    canvas.confetti{position:fixed;inset:0;z-index:60;pointer-events:none}
+    .heart{position:fixed;bottom:-40px;font-size:18px;opacity:0.95;pointer-events:none}
+
+    /* ---------- responsive ---------- */
+    @media (min-width:760px){
+      .title{font-size:44px}
+      .photo{height:360px}
+      .story{grid-template-columns:repeat(2,1fr)}
     }
-
-    /* Final section */
-    .final {
-      padding: 26px;
-      border-radius: 16px;
-      margin-top: 18px;
-      background: linear-gradient(90deg, rgba(255,110,140,0.06), rgba(255,190,210,0.02));
-      box-shadow: 0 14px 40px rgba(20,8,30,0.45);
-      text-align: center;
-    }
-    .final h3 { color: #ffd6e3; }
-    .signature { margin-top: 12px; color: #ff9fb3; font-weight: 700; }
-
-    /* Confetti + Hearts */
-    canvas.confetti { position: fixed; inset: 0; z-index: 60; pointer-events: none; }
-    .heart { position: fixed; bottom: -40px; font-size: 18px; opacity: 0.95; pointer-events: none; }
-
-    /* Responsive tweaks */
-    @media (min-width: 760px) {
-      .title { font-size: 44px; }
-      .story { grid-template-columns: repeat(2,1fr); }
-      .photo { aspect-ratio: 16/9; }
-    }
-
-    @media (max-width: 480px) {
-      .title { font-size: 26px; }
-      .subtitle { font-size: 14px; }
-      .photo { aspect-ratio: 1/1; }
-      .caption { font-size: 14px; }
+    @media (max-width:420px){
+      .title{font-size:26px}
+      .photo{height:180px}
     }
   </style>
 </head>
 <body>
 
-  <div class="overlay">
-    <h2>Hey there!</h2>
-    <p>A small surprise awaits... ready?</p>
-    <div class="tap-hint" id="startBtn">Tap to Begin 🎉</div>
-    <div class="sub">Made with ❤️</div>
+  <!-- Confetti canvas -->
+  <canvas id="confetti" class="confetti"></canvas>
+
+  <!-- Welcome overlay - single tap -->
+  <div class="overlay" id="overlay">
+    <h2>Hey Riddhi… I’ve got something special for you 💖</h2>
+    <p>Tap anywhere to see your surprise. Open with love — this moment is just for you.</p>
+    <div class="tap-hint" id="tapHint">Tap anywhere</div>
+    <div class="sub">Made with love — Forever, your Dheeraj</div>
   </div>
 
-  <div class="app" id="app">
+  <!-- Main app content (hidden until tap) -->
+  <div id="app" class="app">
     <div class="container">
+
       <div class="hero">
-        <h1 class="title">Happy Birthday<span class="cursor"></span></h1>
-        <p class="subtitle">Here’s a small surprise to celebrate your special day!</p>
+        <div class="title" id="typewriter">Happiest Birthday Riddhi <span class="cursor"></span></div>
+        <div class="subtitle" id="intro">You are the soft light in my every day — today I celebrate you, your smile, and the beautiful future ahead.</div>
       </div>
 
-      <div class="story">
-        <div class="card">
-          <div class="photo"><img src="https://picsum.photos/400/300?1" alt=""></div>
-          <div class="caption">From the first moment, you brought happiness into everyone’s life 💖</div>
+      <div class="story" id="story">
+        <div class="card" data-index="0">
+          <div class="photo"><img data-src="images\photo1.jpg" alt="photo1"></div>
+          <div class="caption">Every laugh with you becomes a memory I keep forever.</div>
         </div>
-        <div class="card">
-          <div class="photo"><img src="https://picsum.photos/400/300?2" alt=""></div>
-          <div class="caption">Every smile, every laugh — it’s all magic! ✨</div>
+
+        <div class="card" data-index="1">
+          <div class="photo"><img data-src="images\photo2.jpg" alt="photo2"></div>
+          <div class="caption">Your smile lights my darkest days and fills them with warmth.</div>
         </div>
-        <div class="card">
-          <div class="photo"><img src="https://picsum.photos/400/300?3" alt=""></div>
-          <div class="caption">Here’s to another year of wonderful memories 🥂</div>
+
+        <div class="card" data-index="2">
+          <div class="photo"><img data-src="images\photo3.jpg" alt="photo3"></div>
+          <div class="caption">I love the way we dream together — small and grand, always hand in hand.</div>
         </div>
-        <div class="card">
-          <div class="photo"><img src="https://picsum.photos/400/300?4" alt=""></div>
-          <div class="caption">You’re truly one in a million 🌸</div>
+
+        <div class="card" data-index="3">
+          <div class="photo"><img data-src="images\photo4.jpg" alt="photo4"></div>
+          <div class="caption">May this year bring you new joys, big adventures, and quiet peace.</div>
         </div>
+
+        <div class="card" data-index="4">
+          <div class="photo"><img data-src="images\photo5.jpg" alt="photo5"></div>
+          <div class="caption">You deserve everything beautiful — I’ll be there to chase those dreams with you.</div>
+        </div>
+
+        <div class="card" data-index="5">
+          <div class="photo"><img data-src="images\photo6.jpg"" alt="photo6"></div>
+          <div class="caption">Happiest birthday, Riddhi — to countless tomorrows and endless love.</div>
+        </div>
+
       </div>
 
       <div class="final">
-        <h3>Have an unforgettable birthday!</h3>
-        <div class="signature">— From your secret well-wisher ❤️</div>
+        <h3>Wishing you a life full of laughter, love, and success.</h3>
+        <div class="signature">Forever, your Dheeraj ❤️</div>
       </div>
+
     </div>
   </div>
 
+  <!-- Background music (will play after user taps) -->
+  <audio id="bgAudio" preload="auto" playsinline>
+    <source src="music/romantic_birthday.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
-    const overlay = document.querySelector('.overlay');
+    // -------------------- Utilities --------------------
+    const overlay = document.getElementById('overlay');
     const app = document.getElementById('app');
-    const startBtn = document.getElementById('startBtn');
-    const cards = document.querySelectorAll('.card');
+    const tapHint = document.getElementById('tapHint');
+    const bgAudio = document.getElementById('bgAudio');
+    const confettiCanvas = document.getElementById('confetti');
+    const storyCards = Array.from(document.querySelectorAll('.card'));
+    const typewriterEl = document.getElementById('typewriter');
 
-    startBtn.addEventListener('click', () => {
-      overlay.style.display = 'none';
+    // Safe play for mobile: start audio only after user gesture
+    function startAudio(){
+      if(bgAudio && bgAudio.paused){
+        const p = bgAudio.play();
+        if(p !== undefined){ p.catch(()=>{/* autoplay blocked — user tapped so should be fine */}); }
+      }
+    }
+
+    // -------------------- Single-tap reveal --------------------
+    function revealAll(){
+      // Hide overlay
+      overlay.style.transition = 'opacity .5s ease';
+      overlay.style.opacity = '0';
+      setTimeout(()=>overlay.style.display = 'none',500);
+
+      // Show main app
       app.classList.add('visible');
-      document.body.style.overflowY = 'auto'; // Enable scrolling
-      cards.forEach((card, i) => {
-        setTimeout(() => card.classList.add('show'), i * 300);
-      });
-    });
-  </script>
 
+      // Start audio
+      startAudio();
+
+      // Start animations: typewriter + reveal cards
+      startTypewriter('Happiest Birthday Riddhi ❤️', 40, ()=>{
+        // after heading typed, reveal intro and cards sequentially
+        revealCardsSequential();
+      });
+
+      // start hearts and confetti after a small delay
+      startFloatingHearts();
+      setTimeout(()=>startConfettiBurst(), 700);
+
+      // make sure we're at top
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // detect tap/click anywhere on overlay
+    function onTap(){ revealAll(); }
+    overlay.addEventListener('click', onTap, {passive:true});
+    tapHint.addEventListener('click', onTap, {passive:true});
+
+    // Also allow keyboard Enter for accessibility
+    overlay.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' ') revealAll(); });
+
+    // -------------------- Typewriter --------------------
+    function startTypewriter(text, speed=60, cb){
+      typewriterEl.innerHTML = '';
+      const cursor = document.createElement('span'); cursor.className='cursor';
+      let i=0;
+      function step(){
+        if(i<=text.length){
+          typewriterEl.innerHTML = text.slice(0,i) + ' ';
+          typewriterEl.appendChild(cursor);
+          i++; setTimeout(step, speed + Math.random()*18);
+        } else { cursor.remove(); cb && cb(); }
+      }
+      step();
+    }
+
+    // -------------------- Reveal cards sequentially on scroll & after tap --------------------
+    function revealCardsSequential(){
+      // lazy-load images and reveal one by one
+      storyCards.forEach((card, idx)=>{
+        setTimeout(()=>{
+          const img = card.querySelector('img');
+          if(img && img.dataset.src){ img.src = img.dataset.src; delete img.dataset.src; }
+          card.classList.add('show');
+        }, 350 + idx * 360);
+      });
+    }
+
+    // Also reveal on scroll (in case she scrolls slowly)
+    function revealOnScroll(){
+      const trigger = window.innerHeight * 0.85;
+      document.querySelectorAll('.card').forEach(card=>{
+        const r = card.getBoundingClientRect();
+        if(r.top < trigger) card.classList.add('show');
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+
+    // -------------------- Confetti (burst) --------------------
+    const confCtx = confettiCanvas.getContext('2d');
+    function resizeConfetti(){ confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeConfetti); resizeConfetti();
+
+    function startConfettiBurst(){
+      const w = confettiCanvas.width; const h = confettiCanvas.height; const pieces = [];
+      for(let i=0;i<140;i++){
+        pieces.push({x: w/2, y: h/2, r: Math.random()*8+4, vx:(Math.random()-0.5)*10, vy: (Math.random()-0.9)*12, ang: Math.random()*360, color: `hsl(${Math.random()*60+320},90%,65%)`, rot: Math.random()*360});
+      }
+      let t=0;
+      function frame(){
+        confCtx.clearRect(0,0,w,h);
+        t++;
+        for(const p of pieces){
+          p.x += p.vx; p.y += p.vy; p.vy += 0.35; p.rot += 6*p.vx*0.01;
+          confCtx.save(); confCtx.translate(p.x,p.y); confCtx.rotate(p.rot*Math.PI/180);
+          confCtx.fillStyle = p.color; confCtx.fillRect(-p.r/2,-p.r/2,p.r,p.r);
+          confCtx.restore();
+        }
+        if(t<240) requestAnimationFrame(frame); else confCtx.clearRect(0,0,w,h);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // -------------------- Floating hearts (continuous) --------------------
+    function startFloatingHearts(){
+      const container = document.body;
+      const pool = [];
+      function create(){
+        const el = document.createElement('div');
+        el.className='heart';
+        el.textContent = '❤';
+        el.style.left = Math.random()*100 + 'vw';
+        el.style.fontSize = (12 + Math.random()*26) + 'px';
+        el.style.opacity = (0.5 + Math.random()*0.6);
+        el.style.transition = 'transform 6s linear, opacity 6s linear';
+        container.appendChild(el);
+        setTimeout(()=>{
+          el.style.transform = `translateY(-120vh) scale(1.6)`; el.style.opacity='0';
+        }, 60);
+        setTimeout(()=>el.remove(), 6400);
+      }
+      // create periodically for a while
+      for(let i=0;i<10;i++) setTimeout(create, i*350);
+      // then continue but slower
+      const t = setInterval(()=>{ create(); }, 900);
+      // stop after some time
+      setTimeout(()=> clearInterval(t), 40000);
+    }
+
+    // -------------------- Accessibility: allow re-open for testing -------------
+    // (optional) double-tap top-left corner to reset
+    let lastTap = 0; document.addEventListener('touchend', e=>{ const now=Date.now(); if(now - lastTap < 350){ location.reload(); } lastTap = now; });
+
+    // -------------------- Prevent scroll until opened --------------------
+    document.documentElement.style.height='100%'; document.body.style.overflow='hidden';
+    function enableScroll(){ document.body.style.overflow='auto'; }
+
+    // Modify revealAll to enable scroll
+    const originalReveal = revealAll;
+    revealAll = function(){ originalReveal(); enableScroll(); };
+
+    // -------------------- End --------------------
+  </script>
 </body>
 </html>
